@@ -13,6 +13,7 @@ public class BasicItem {
 
     public BasicItem(String name) {
         this.name = name;
+        this.description="unknow";
     }
 
     public BasicItem(String name, String description) {

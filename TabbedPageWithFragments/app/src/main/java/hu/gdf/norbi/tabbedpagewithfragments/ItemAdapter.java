@@ -25,4 +25,7 @@ public class ItemAdapter {
     public BasicItem get_item(int i){
         return items.get(i);
     }
+    public int getItemCount(){
+     return items.size();
+    }
 }
