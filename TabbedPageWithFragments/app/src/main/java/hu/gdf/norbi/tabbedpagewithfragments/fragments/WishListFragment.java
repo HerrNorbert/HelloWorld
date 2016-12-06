@@ -72,9 +72,9 @@ public class WishListFragment extends Fragment {
         super.onResume();
 
        if (wishlist.getItemCount()!=0){
-            for(int i =0; i<wishlist.getItemCount()-1; i++){
+            for(int i =0; i<wishlist.getItemCount(); i++){
                 CheckBox cb = new CheckBox(getActivity());
-                cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
+                cb.setText(wishlist.get_item(i).toString());
                 ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
             }
         }
