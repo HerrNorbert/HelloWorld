@@ -49,6 +49,10 @@ public class BasicItem {
         this.mount = mount;
     }
 
+    public void addMount(){
+        this.mount++;
+    }
+
     @Override
     public String toString() {
         return "BasicItem{" +
@@ -57,4 +61,23 @@ public class BasicItem {
                 ", mount=" + mount +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BasicItem)) return false;
+
+        BasicItem item = (BasicItem) o;
+
+        if (!getName().equals(item.getName())) return false;
+        return getDescription().equals(item.getDescription());
+
+    }
+/*
+    @Override
+    public int hashCode() {
+        int result = getName().hashCode();
+        result = 31 * result + getDescription().hashCode();
+        return result;
+    }*/
 }

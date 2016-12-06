@@ -50,13 +50,16 @@ public class WishListFragment extends Fragment {
 
                 if (etAddtoList.getText().length()==0) {
                     Toast.makeText(getActivity(),"Please write an item.",Toast.LENGTH_LONG).show();
-
                 }else {
-                    wishlist.add_item(new BasicItem(etAddtoList.getText().toString()));
-                    CheckBox cb = new CheckBox(getActivity());
-                    cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
-                    ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
-                }etAddtoList.setText("");
+                    BasicItem item = new BasicItem(etAddtoList.getText().toString());
+                    wishlist.add_item(item);
+                    if(wishlist.get_item(wishlist.isAlreadyHave(item)).getMount()==1){
+                        CheckBox cb = new CheckBox(getActivity());
+                        cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
+                        ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+                    }
+                }
+                etAddtoList.setText("");
 
 
             }

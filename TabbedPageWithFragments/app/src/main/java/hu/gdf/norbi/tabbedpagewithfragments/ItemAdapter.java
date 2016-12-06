@@ -16,7 +16,10 @@ public class ItemAdapter {
     }
 
     public void add_item(BasicItem item){
-        items.add(item);
+        if(isAlreadyHave(item)!=-1)
+            items.get(isAlreadyHave(item)).addMount();
+        else
+            items.add(item);
     }
 
     public Boolean remove_item(BasicItem item){
@@ -27,5 +30,8 @@ public class ItemAdapter {
     }
     public int getItemCount(){
      return items.size();
+    }
+    public int isAlreadyHave(BasicItem item){
+        return items.indexOf(item);
     }
 }
