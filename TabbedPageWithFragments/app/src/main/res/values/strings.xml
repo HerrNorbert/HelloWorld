@@ -5,4 +5,5 @@
     <string name="welcome">Welcome</string>
     <string name="AddItem">add item</string>
     <string name="SortItems">sort items</string>
+    <string name="spent_money">Spent money</string>
 </resources>

@@ -6,19 +6,23 @@ package hu.gdf.norbi.tabbedpagewithfragments.items;
 
 public class BasicItem {
    String name, description;
+    int mount;
 
     public BasicItem() {
         this.name=this.description="unknow";
+        this.mount=1;
     }
 
     public BasicItem(String name) {
         this.name = name;
         this.description="unknow";
+        this.mount=1;
     }
 
     public BasicItem(String name, String description) {
         this.name = name;
         this.description = description;
+        this.mount=1;
     }
 
     public String getName() {
@@ -37,11 +41,20 @@ public class BasicItem {
         this.description = description;
     }
 
+    public int getMount() {
+        return mount;
+    }
+
+    public void setMount(int mount) {
+        this.mount = mount;
+    }
+
     @Override
     public String toString() {
         return "BasicItem{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", mount=" + mount +
                 '}';
     }
 }
