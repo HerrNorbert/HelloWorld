@@ -53,6 +53,10 @@ public class BasicItem {
         this.mount++;
     }
 
+    public void reduceMount(){
+        this.mount--;
+    }
+
     @Override
     public String toString() {
         return "BasicItem{" +

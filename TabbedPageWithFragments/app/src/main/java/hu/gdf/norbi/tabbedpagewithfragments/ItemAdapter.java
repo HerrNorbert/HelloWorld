@@ -22,8 +22,12 @@ public class ItemAdapter {
             items.add(item);
     }
 
-    public Boolean remove_item(BasicItem item){
-        return items.remove(item);
+    public void remove_item(BasicItem item){
+        if(isAlreadyHave(item)!=-1)
+            items.get(isAlreadyHave(item)).reduceMount();
+
+        else
+            items.remove(item);
     }
     public BasicItem get_item(int i){
         return items.get(i);
