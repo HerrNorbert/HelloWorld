@@ -104,12 +104,11 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
-                //case 0 : return new WishListFragment();
+                case 0 : return new WishListFragment();
                 case 1 : return new MainFragment();
                 case 2 : return new CartFragment();
+                default : return null;//new WishListFragment();
             }
-            return new WishListFragment();
-            //return null;
         }
 
         @Override
