@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
@@ -23,16 +25,15 @@ import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
 public class WishListFragment extends Fragment {
     static private ItemAdapter wishlist;
     private Button btnAdd;
-
     private EditText etAddtoList;
-
+    private ArrayList<CheckBox> cbArrayList;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         wishlist = new ItemAdapter();
-
+        cbArrayList = new ArrayList<>();
 
     }
 
@@ -56,7 +57,12 @@ public class WishListFragment extends Fragment {
                     if(wishlist.get_item(wishlist.isAlreadyHave(item)).getMount()==1){
                         CheckBox cb = new CheckBox(getActivity());
                         cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
+                        cbArrayList.add(cb);
                         ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+                    }
+                    else{
+                        int index = wishlist.isAlreadyHave(item);
+                        cbArrayList.get(index).setText(wishlist.get_item(index).toString());
                     }
                 }
                 etAddtoList.setText("");
