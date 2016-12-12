@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
+import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 
 /**
@@ -14,14 +17,25 @@ import hu.gdf.norbi.tabbedpagewithfragments.R;
  */
 
 public class CartFragment extends Fragment {
+    static private ItemAdapter cartlist;
+    private Button btnScan;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cartlist = new ItemAdapter();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.cart_fragment,container,false);
+        View view = inflater.inflate(R.layout.cart_fragment,container,false);
+        btnScan = (Button) view.findViewById(R.id.btnScan);
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"scaning...",Toast.LENGTH_LONG).show();
+            }
+        });
+        return view;
     }
 }
