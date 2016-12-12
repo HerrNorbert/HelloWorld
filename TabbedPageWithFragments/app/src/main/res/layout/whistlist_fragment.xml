@@ -19,8 +19,8 @@
         android:id="@+id/InnerRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white">
         <Button
             android:id="@+id/btnSortList"
             android:layout_width="wrap_content"

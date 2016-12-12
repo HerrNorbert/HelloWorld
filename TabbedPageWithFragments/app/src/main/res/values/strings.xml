@@ -6,4 +6,6 @@
     <string name="AddItem">add item</string>
     <string name="SortItems">sort items</string>
     <string name="spent_money">Spent money</string>
+    <string name="usedMoney">Spent money</string>
+    <string name="btnScan">Scan</string>
 </resources>

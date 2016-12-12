@@ -41,7 +41,7 @@ public class CartFragment extends Fragment {
                 CartItem cartItem = new CartItem("tv","qrva tv",id,10000);
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartItem.toString());
-                ((LinearLayout) getView().findViewById(R.id.cartLL)).addView(tv);
+                ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
                 cartlist.add_item(cartItem);
             }
         });
@@ -55,7 +55,7 @@ public class CartFragment extends Fragment {
             for(int i =0; i<cartlist.getItemCount(); i++){
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartlist.get_item(i).toString());
-                ((LinearLayout) getView().findViewById(R.id.cartLL)).addView(tv);
+                ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
             }
         }
     }
