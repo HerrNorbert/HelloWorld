@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
@@ -21,11 +23,13 @@ import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 
 public class CartFragment extends Fragment {
     static private ItemAdapter cartlist;
+    private ArrayList<TextView> tvArrayList;
     private Button btnScan;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cartlist = new ItemAdapter();
+        tvArrayList = new ArrayList<>();
     }
 
     @Nullable
@@ -36,13 +40,30 @@ public class CartFragment extends Fragment {
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"scaning...",Toast.LENGTH_LONG).show();
-                int id=1;
-                CartItem cartItem = new CartItem("tv","qrva tv",id,10000);
+                Toast.makeText(getActivity(), "scaning...", Toast.LENGTH_LONG).show();
+                int id = 1;
+                /*CartItem cartItem = new CartItem("tv","qrva tv",id,10000);
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartItem.toString());
                 ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
-                cartlist.add_item(cartItem);
+                cartlist.add_item(cartItem);*/
+                ///////////////////////////////////////////
+                if (id < 1) {
+                    Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
+                }else{
+                    CartItem cartItem = new CartItem("tv","qrva tv",id,10000);
+                    cartlist.add_item(cartItem);
+                    if(cartlist.get_item(cartlist.isAlreadyHave(cartItem)).getMount()==1){
+                        TextView tv = new TextView(getActivity());
+                        tv.setText(cartItem.toString());
+                        tvArrayList.add(tv);
+                        ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
+                    }else{
+                        int index = cartlist.isAlreadyHave(cartItem);
+                        tvArrayList.get(index).setText(cartlist.get_item(index).toString());
+                    }
+                }
+
             }
         });
         return view;
