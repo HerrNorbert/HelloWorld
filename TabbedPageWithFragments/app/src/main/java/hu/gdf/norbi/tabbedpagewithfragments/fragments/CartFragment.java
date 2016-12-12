@@ -42,6 +42,7 @@ public class CartFragment extends Fragment {
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartItem.toString());
                 ((LinearLayout) getView().findViewById(R.id.cartLL)).addView(tv);
+                cartlist.add_item(cartItem);
             }
         });
         return view;
@@ -54,7 +55,7 @@ public class CartFragment extends Fragment {
             for(int i =0; i<cartlist.getItemCount(); i++){
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartlist.get_item(i).toString());
-                ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(tv);
+                ((LinearLayout) getView().findViewById(R.id.cartLL)).addView(tv);
             }
         }
     }
