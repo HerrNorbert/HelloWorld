@@ -8,4 +8,5 @@
     <string name="spent_money">Spent money</string>
     <string name="usedMoney">Spent money</string>
     <string name="btnScan">Scan</string>
+    <string name="money_format">Ft</string>
 </resources>

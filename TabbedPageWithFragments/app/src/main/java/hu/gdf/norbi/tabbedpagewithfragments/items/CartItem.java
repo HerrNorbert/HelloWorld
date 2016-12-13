@@ -43,4 +43,15 @@ public class CartItem extends BasicItem {
 
         return getId() == cartItem.getId();
     }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "name='" + name +
+                ", description='" + description +
+                ", mount=" + mount +
+                "id=" + id +
+                ", prize=" + prize +
+                '}';
+    }
 }

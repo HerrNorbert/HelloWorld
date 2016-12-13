@@ -5,8 +5,8 @@ package hu.gdf.norbi.tabbedpagewithfragments.items;
  */
 
 public class BasicItem {
-   String name, description;
-    int mount;
+   protected String name, description;
+   protected int mount;
 
     public BasicItem() {
         this.name=this.description="unknow";
