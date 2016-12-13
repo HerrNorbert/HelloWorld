@@ -32,4 +32,15 @@ public class CartItem extends BasicItem {
     public void setPrize(int prize) {
         this.prize = prize;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CartItem)) return false;
+        if (!super.equals(o)) return false;
+
+        CartItem cartItem = (CartItem) o;
+
+        return getId() == cartItem.getId();
+    }
 }

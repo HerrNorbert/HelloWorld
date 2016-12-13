@@ -34,7 +34,6 @@ public class WishListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         wishlist = new ItemAdapter();
         cbArrayList = new ArrayList<>();
-
     }
 
     @Nullable
@@ -66,15 +65,8 @@ public class WishListFragment extends Fragment {
                     }
                 }
                 etAddtoList.setText("");
-
-
             }
         });
-
-
-
-
-
         return view;
     }
     public void onResume() {
@@ -91,7 +83,7 @@ public class WishListFragment extends Fragment {
 
     public void onPause() {
         super.onPause();
-
+        cbArrayList.clear();
     //Toast.makeText(getActivity(), wishlist.getItemCount(), Toast.LENGTH_LONG).show();
     }
 }

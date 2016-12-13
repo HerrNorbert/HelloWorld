@@ -42,12 +42,6 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "scaning...", Toast.LENGTH_LONG).show();
                 int id = 1;
-                /*CartItem cartItem = new CartItem("tv","qrva tv",id,10000);
-                TextView tv = new TextView(getActivity());
-                tv.setText(cartItem.toString());
-                ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
-                cartlist.add_item(cartItem);*/
-                ///////////////////////////////////////////
                 if (id < 1) {
                     Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
                 }else{
@@ -79,5 +73,9 @@ public class CartFragment extends Fragment {
                 ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
             }
         }
+    }
+    public void onPause() {
+        super.onPause();
+        tvArrayList.clear();
     }
 }
