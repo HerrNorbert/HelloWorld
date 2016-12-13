@@ -1,5 +1,8 @@
 package hu.gdf.norbi.tabbedpagewithfragments.items;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * Created by Norbi on 2016. 12. 05..
  */
@@ -51,7 +54,7 @@ public class CartItem extends BasicItem {
                 ", description='" + description +
                 ", mount=" + mount +
                 "id=" + id +
-                ", prize=" + prize +
+                ", prize=" + NumberFormat.getNumberInstance(Locale.US).format(prize) +
                 '}';
     }
 }
