@@ -25,6 +25,7 @@ import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
 public class WishListFragment extends Fragment {
     static private ItemAdapter wishlist;
     private Button btnAdd;
+    private Button btnSort;
     private EditText etAddtoList;
     private ArrayList<CheckBox> cbArrayList;
 
@@ -67,16 +68,23 @@ public class WishListFragment extends Fragment {
                 etAddtoList.setText("");
             }
         });
+        btnSort = (Button) view.findViewById(R.id.btnSortList);
+        btnSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ;
+            }
+        });
         return view;
     }
     public void onResume() {
         super.onResume();
-
        if (wishlist.getItemCount()!=0){
             for(int i =0; i<wishlist.getItemCount(); i++){
                 CheckBox cb = new CheckBox(getActivity());
                 cb.setText(wishlist.get_item(i).toString());
                 ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+                cbArrayList.add(cb);
             }
         }
     }

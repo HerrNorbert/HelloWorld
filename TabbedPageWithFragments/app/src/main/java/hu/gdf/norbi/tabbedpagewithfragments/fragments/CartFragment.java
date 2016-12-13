@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
@@ -47,11 +48,13 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "scaning...", Toast.LENGTH_LONG).show();
-                int id = 1;
+                Random rand = new Random();
+                int id = rand.nextInt(150) + 1;
+                int prize = rand.nextInt(15000) + 1;;
                 if (id < 1) {
                     Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
                 }else{
-                    CartItem cartItem = new CartItem("tv","qrva tv",id,910000);
+                    CartItem cartItem = new CartItem("tv","qrva tv",id,prize);
                     cartlist.add_item(cartItem);
                     if(cartlist.get_item(cartlist.isAlreadyHave(cartItem)).getMount()==1){
                         TextView tv = new TextView(getActivity());
