@@ -60,9 +60,7 @@ public class CartFragment extends Fragment {
                         ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
                     }else{
                         int index = cartlist.isAlreadyHave(cartItem);
-                        ///////////////////////////////////////
-                        //tvArrayList.get(index).setText(cartlist.get_item(index).toString());
-                        ///////////////////////////////////////
+                        tvArrayList.get(index).setText(cartlist.get_item(index).toString());
                     }
                     money += cartItem.getPrize();
                     tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
@@ -80,6 +78,7 @@ public class CartFragment extends Fragment {
             for(int i =0; i<cartlist.getItemCount(); i++){
                 TextView tv = new TextView(getActivity());
                 tv.setText(cartlist.get_item(i).toString());
+                tvArrayList.add(tv);
                 ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
                 money +=  (((CartItem)cartlist.get_item(i)).getPrize()*cartlist.get_item(i).getMount());
             }
