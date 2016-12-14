@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
-import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
+import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 /**
  * Created by Norbi on 2016. 12. 05..
@@ -52,7 +52,7 @@ public class WishListFragment extends Fragment {
                 if (etAddtoList.getText().length()==0) {
                     Toast.makeText(getActivity(),"Please write an item.",Toast.LENGTH_LONG).show();
                 }else {
-                    BasicItem item = new BasicItem(etAddtoList.getText().toString());
+                    WishItem item = new WishItem(etAddtoList.getText().toString());
                     wishlist.add_item(item);
                     if(wishlist.get_item(wishlist.isAlreadyHave(item)).getMount()==1){
                         CheckBox cb = new CheckBox(getActivity());
@@ -83,14 +83,25 @@ public class WishListFragment extends Fragment {
             for(int i =0; i<wishlist.getItemCount(); i++){
                 CheckBox cb = new CheckBox(getActivity());
                 cb.setText(wishlist.get_item(i).toString());
+                cb.setChecked( ((WishItem)wishlist.get_item(i)).isGotIt() );
                 ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
                 cbArrayList.add(cb);
+                cb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String tmp = (String) ((CheckBox) view) .getText();
+                    }
+                });
             }
         }
     }
 
     public void onPause() {
         super.onPause();
+        for(int i = 0; i < cbArrayList.size(); i++){
+            ((WishItem)wishlist.get_item(i)).setGotIt(cbArrayList.get(i).isChecked());
+            ((LinearLayout) getView().findViewById(R.id.llWishList)).removeView(cbArrayList.get(i));
+        }
         cbArrayList.clear();
     //Toast.makeText(getActivity(), wishlist.getItemCount(), Toast.LENGTH_LONG).show();
     }
