@@ -32,4 +32,6 @@ public class WishItem extends BasicItem {
     public void setGotIt(boolean gotIt) {
         this.gotIt = gotIt;
     }
+
+
 }

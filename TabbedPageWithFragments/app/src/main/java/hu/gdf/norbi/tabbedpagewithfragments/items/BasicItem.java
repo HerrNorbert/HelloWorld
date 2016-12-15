@@ -77,11 +77,4 @@ public class BasicItem {
         return getDescription().equals(item.getDescription());
 
     }
-/*
-    @Override
-    public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getDescription().hashCode();
-        return result;
-    }*/
 }

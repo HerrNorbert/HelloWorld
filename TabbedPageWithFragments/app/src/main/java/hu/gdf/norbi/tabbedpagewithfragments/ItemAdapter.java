@@ -1,6 +1,8 @@
 package hu.gdf.norbi.tabbedpagewithfragments;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
 
@@ -37,5 +39,14 @@ public class ItemAdapter {
     }
     public int isAlreadyHave(BasicItem item){
         return items.indexOf(item);
+    }
+
+    public void sortAlphabet(){
+        Collections.sort(items, new Comparator<BasicItem>() {
+            @Override
+            public int compare(BasicItem basicItem, BasicItem t1) {
+                return basicItem.getName().compareTo(t1.getName()) ;
+            }
+        });
     }
 }

@@ -72,7 +72,18 @@ public class WishListFragment extends Fragment {
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ;
+                int i = 0;
+                for(CheckBox cb : cbArrayList) {
+                    ((WishItem)wishlist.get_item(i)).setGotIt(cb.isChecked());
+                    ++i;
+                }
+                wishlist.sortAlphabet();
+                i = 0;
+                for(CheckBox cb : cbArrayList) {
+                    cb.setChecked(((WishItem)wishlist.get_item(i)).isGotIt());
+                    cb.setText(((WishItem)wishlist.get_item(i)).toString());
+                    ++i;
+                }
             }
         });
         return view;
