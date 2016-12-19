@@ -42,7 +42,7 @@ public class WishListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.whistlist_fragment,container,false);
 
-        etAddtoList = (EditText) view.findViewById(R.id.etAddToList);etAddtoList.setText("");
+        etAddtoList = (EditText) view.findViewById(R.id.etAddToListName);etAddtoList.setText("");
         btnAdd = (Button) view.findViewById(R.id.btnAddtoList);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
