@@ -11,11 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Random;
 
+import hu.gdf.norbi.tabbedpagewithfragments.CSVhandler;
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
@@ -30,12 +31,19 @@ public class CartFragment extends Fragment {
     private Button btnScan;
     private TextView tvSpentMoney;
     private int money;
+    private CSVhandler handler;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cartlist = new ItemAdapter();
         tvArrayList = new ArrayList<>();
+        handler = new CSVhandler(getContext());
+        try {
+            handler.CsvRead();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -48,13 +56,16 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "scaning...", Toast.LENGTH_LONG).show();
-                Random rand = new Random();
+///////////////////////////////////////////////////////////////////////////
+                /*                Random rand = new Random();
                 int id = rand.nextInt(150) + 1;
-                int prize = rand.nextInt(15000) + 1;;
+                int prize = rand.nextInt(15000) + 1;*/
+                //////////////////////////////////////////////////////////
+                int id = 1;
                 if (id < 1) {
                     Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
                 }else{
-                    CartItem cartItem = new CartItem("tv","qrva tv",id,prize);
+                    CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
                     cartlist.add_item(cartItem);
                     if(cartlist.get_item(cartlist.isAlreadyHave(cartItem)).getMount()==1){
                         TextView tv = new TextView(getActivity());
