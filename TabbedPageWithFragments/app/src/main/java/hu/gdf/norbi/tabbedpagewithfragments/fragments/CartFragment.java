@@ -61,7 +61,7 @@ public class CartFragment extends Fragment {
                 int id = rand.nextInt(150) + 1;
                 int prize = rand.nextInt(15000) + 1;*/
                 //////////////////////////////////////////////////////////
-                int id = 1;
+                int id = 2;
                 if (id < 1) {
                     Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
                 }else{
