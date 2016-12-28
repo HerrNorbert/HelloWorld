@@ -2,6 +2,7 @@ package hu.gdf.norbi.tabbedpagewithfragments;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,8 +34,12 @@ public class CSVhandler {
             bufferedReader = new BufferedReader(new InputStreamReader(is));
             while ((currLine=bufferedReader.readLine())!=null){
                 String[] currItem = currLine.split(";");
-                if(currItem.length==3){
-                    avaibleItems.add(new CartItem(currItem[0],currItem[1],Integer.getInteger(currItem[2]) ,Integer.getInteger(currItem[3])));
+                if(currItem.length==4){
+                    Log.d("itemName",currItem[0]);
+                    Log.d("itemDesc",currItem[1]);
+                    Log.d("itemID",currItem[2]);
+                    Log.d("itemPrize",currItem[3]);
+                    avaibleItems.add(new CartItem(currItem[0],currItem[1],Integer.parseInt(currItem[2]),Integer.parseInt(currItem[3])));
                 }
             }
         }catch (IOException ex){
@@ -48,7 +53,8 @@ public class CSVhandler {
     public CartItem FindItemById(int id){
         CartItem item = new CartItem("","",id,0);
         if(avaibleItems.size()>0){
-            return  avaibleItems.get(avaibleItems.indexOf(item));
+            if(-1 != avaibleItems.indexOf(item))
+                return  avaibleItems.get(avaibleItems.indexOf(item));
         }
         return item;
 

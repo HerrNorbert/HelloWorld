@@ -40,7 +40,7 @@ public class CartItem extends BasicItem {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CartItem)) return false;
-        if (!super.equals(o)) return false;
+        //if (!super.equals(o)) return false;//megölte!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         CartItem cartItem = (CartItem) o;
 
