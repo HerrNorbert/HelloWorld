@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -28,7 +28,7 @@ import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 public class CartFragment extends Fragment {
     static private ItemAdapter cartlist;
     private ArrayList<TextView> tvArrayList;
-    private Button btnScan;
+    private ToggleButton btnScan;
     private TextView tvSpentMoney;
     private int money;
     private CSVhandler handler;
@@ -51,11 +51,15 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.cart_fragment,container,false);
         tvSpentMoney = (TextView) view.findViewById(R.id.tvSpentMoney);
-        btnScan = (Button) view.findViewById(R.id.btnScan);
+        btnScan = (ToggleButton) view.findViewById(R.id.btnScan);
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "scaning...", Toast.LENGTH_LONG).show();
+                if(btnScan.isChecked()){
+                    Toast.makeText(getActivity(), "scaning mode on", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
+                }
 ///////////////////////////////////////////////////////////////////////////
                 /*                Random rand = new Random();
                 int id = rand.nextInt(150) + 1;
