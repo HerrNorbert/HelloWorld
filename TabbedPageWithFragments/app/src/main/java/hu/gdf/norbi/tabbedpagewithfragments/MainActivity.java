@@ -1,5 +1,9 @@
 package hu.gdf.norbi.tabbedpagewithfragments;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,14 +13,37 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
 import hu.gdf.norbi.tabbedpagewithfragments.fragments.MainFragment;
 import hu.gdf.norbi.tabbedpagewithfragments.fragments.WishListFragment;
 
 public class MainActivity extends AppCompatActivity {
+////////////////////////////////////////NFC
+    private NfcAdapter mNfcAdapter;
+    private PendingIntent mNfcPendingIntent;
+    private IntentFilter[] mWriteTagFilters;
 
+    public void SetNfcForeground(boolean logical){
+        Toast.makeText(this,"asd",Toast.LENGTH_SHORT).show();
+        if(logical){
+            IntentFilter tagDetected = new IntentFilter(
+                    NfcAdapter.ACTION_TAG_DISCOVERED);
+            mWriteTagFilters = new IntentFilter[] { tagDetected };
+            mNfcAdapter.enableForegroundDispatch(this, mNfcPendingIntent,
+                    mWriteTagFilters, null);
 
+        }else{
+
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+    ////////////////////////////////////////////////NFC
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * ho.gdf.norbi.fragments for each of the sections. We use a
@@ -59,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        mNfcPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
 
 

@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import hu.gdf.norbi.tabbedpagewithfragments.CSVhandler;
 import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
+import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 
@@ -57,6 +58,7 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 if(btnScan.isChecked()){
                     Toast.makeText(getActivity(), "scaning mode on", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).Asd();
                 }else{
                     Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
                 }
