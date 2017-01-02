@@ -58,7 +58,7 @@ public class CartFragment extends Fragment {
             public void onClick(View view) {
                 if(btnScan.isChecked()){
                     Toast.makeText(getActivity(), "scaning mode on", Toast.LENGTH_SHORT).show();
-                    ((MainActivity)getActivity()).Asd();
+                    ((MainActivity)getActivity()).Asd("ads");
                 }else{
                     Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
                 }
