@@ -9,8 +9,6 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,15 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
-import hu.gdf.norbi.tabbedpagewithfragments.fragments.MainFragment;
-import hu.gdf.norbi.tabbedpagewithfragments.fragments.WishListFragment;
-
 public class MainActivity extends AppCompatActivity {
-////////////////////////////////////////NFC
-public static final String MIME_TEXT_PLAIN = "text/plain";
+    ////////////////////////////////////////NFC
+    public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
     private NfcAdapter mNfcAdapter;
+    private static String readedNFC;
 
     ////////////////////////////////////////////////NFC
     /**
@@ -38,7 +33,7 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private hu.gdf.norbi.tabbedpagewithfragments.SectionsPagerAdapter mSectionsPagerAdapter;
 
 
     /**
@@ -50,12 +45,12 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        readedNFC = "";
 /*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new hu.gdf.norbi.tabbedpagewithfragments.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -73,7 +68,7 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
                         .setAction("Action", null).show();
             }
         });*/
-    //NFC///////////////////////////
+        //NFC///////////////////////////
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         if (mNfcAdapter == null) {
@@ -92,8 +87,14 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
 
         handleIntent(getIntent());
         /////////////////////////
+        mViewPager.setCurrentItem(1);
     }
-/////////////////////////////////////////////NFC
+
+    public NfcAdapter getMyNFCadpter() {
+        return mNfcAdapter;
+    }
+
+    /////////////////////////////////////////////NFC
     @Override
     protected void onResume() {
         super.onResume();
@@ -110,6 +111,7 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
     }
+
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         final Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -131,9 +133,11 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
 
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
+
     public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
     }
+
     private void handleIntent(Intent intent) {
         String action = intent.getAction();
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
@@ -163,12 +167,29 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
         }
     }
 
-    public static void Asd(String s) {
-        /**
-         * to do
-         */
-        Log.d("nfc readed",s);
+    public static void setReadedNFC(String s) {
+        readedNFC = s;
+        Log.d("nfc readed", s);
     }
+
+    /*@Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(readedNFC!=""){
+            CartFragment cf = new CartFragment();
+            if(cf.isCorrectID(Integer.parseInt(readedNFC)))
+                cf.AddItem(Integer.parseInt(readedNFC));
+        }
+    }*/
+
+    public static void clearReadedNFC() {
+        readedNFC = "";
+    }
+
+    public static String getReadedNFC() {
+        return readedNFC;
+    }
+
     ///////////////////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,51 +213,4 @@ public static final String MIME_TEXT_PLAIN = "text/plain";
         return super.onOptionsItemSelected(item);
     }
 
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position){
-                case 0 : return new WishListFragment();
-                case 1 : return new MainFragment();
-                case 2 : return new CartFragment();
-                default : return null;//new WishListFragment();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "WishList";
-                case 1:
-                    return "Main";
-                case 2:
-                    return "Cart";
-            }
-            return null;
-        }
-    }
 }

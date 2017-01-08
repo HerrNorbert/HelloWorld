@@ -1,6 +1,5 @@
 package hu.gdf.norbi.tabbedpagewithfragments;
 
-import android.content.Context;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.Tag;
@@ -74,7 +73,7 @@ class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     protected void onPostExecute(String result) {
         if (result != null) {
             //mTextView.setText("Read content: " + result);
-            MainActivity.Asd(result);
+            MainActivity.setReadedNFC(result);
         }
     }
 }

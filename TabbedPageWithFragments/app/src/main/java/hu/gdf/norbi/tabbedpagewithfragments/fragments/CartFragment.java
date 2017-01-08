@@ -1,5 +1,6 @@
 package hu.gdf.norbi.tabbedpagewithfragments.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -56,18 +57,22 @@ public class CartFragment extends Fragment {
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Activity activity = getActivity();
                 if(btnScan.isChecked()){
                     Toast.makeText(getActivity(), "scaning mode on", Toast.LENGTH_SHORT).show();
-                    ((MainActivity)getActivity()).Asd("ads");
+                    //((MainActivity)getActivity()).Asd("ads");
+                    ((MainActivity)getActivity()).setupForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
+                    //setupForegroundDispatch(this, mNfcAdapter);
                 }else{
                     Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).stopForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
                 }
 ///////////////////////////////////////////////////////////////////////////
                 /*                Random rand = new Random();
                 int id = rand.nextInt(150) + 1;
                 int prize = rand.nextInt(15000) + 1;*/
                 //////////////////////////////////////////////////////////
-                int id = 2;
+         /*       int id = 2;
                 if (id < 1) {
                     Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
                 }else{
@@ -84,16 +89,52 @@ public class CartFragment extends Fragment {
                     }
                     money += cartItem.getPrize();
                     tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
-                }
+                }*/
             }
         });
+       if(  ((MainActivity)getActivity()).getReadedNFC() != "" ){
+            int id = Integer.parseInt(((MainActivity)getActivity()).getReadedNFC());
+            if(isCorrectID(id))
+                AddItem(id);
+            ((MainActivity)getActivity()).clearReadedNFC();
+        }
         return view;
     }
+    public boolean isCorrectID(int id){
+        if (id < 1) {
+            Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+    public void AddItemWithView(int id){
+        CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
+        cartlist.add_item(cartItem);
+        if(cartlist.get_item(cartlist.isAlreadyHave(cartItem)).getMount()==1){
+            TextView tv = new TextView(getActivity());
+            tv.setText(cartItem.toString());
+            tvArrayList.add(tv);
+            ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
+        }else{
+            int index = cartlist.isAlreadyHave(cartItem);
+            tvArrayList.get(index).setText(cartlist.get_item(index).toString());
+        }
+        money += cartItem.getPrize();
+        tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
+    }
+
+    public void AddItem(int id) {
+        CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
+        cartlist.add_item(cartItem);
+    }
+
+
 
     @Override
     public void onResume() {
         super.onResume();
         money =0;
+
         if (cartlist.getItemCount()!=0){
             for(int i =0; i<cartlist.getItemCount(); i++){
                 TextView tv = new TextView(getActivity());
@@ -107,6 +148,11 @@ public class CartFragment extends Fragment {
     }
     public void onPause() {
         super.onPause();
+        for(int i = 0; i < tvArrayList.size(); i++){
+            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
+        }
         tvArrayList.clear();
+        //btnScan.setChecked(false);
+        //((MainActivity)getActivity()).stopForegroundDispatch(getActivity(),((MainActivity)getActivity()).getMyNFCadpter() );
     }
 }
