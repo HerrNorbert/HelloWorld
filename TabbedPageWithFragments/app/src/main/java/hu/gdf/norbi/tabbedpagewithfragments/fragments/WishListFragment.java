@@ -100,13 +100,13 @@ public class WishListFragment extends Fragment {
             cb.setChecked( ((WishItem)wishlist.get_item(i)).isGotIt() );
             ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
             cbArrayList.add(cb);
-                /*?áthúzott szögeg????????????????
+                /*?áthúzott szögeg????????????????*/
                 cb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String tmp = (String) ((CheckBox) view) .getText();
                     }
-                });*/
+                });
         }
     }
 
@@ -114,6 +114,7 @@ public class WishListFragment extends Fragment {
         super.onPause();
         for(int i = 0; i < cbArrayList.size(); i++){
             ((WishItem)wishlist.get_item(i)).setGotIt(cbArrayList.get(i).isChecked());
+            //Log.d("wishlist",((WishItem)wishlist.get_item(i)).toString());
             ((LinearLayout) getView().findViewById(R.id.llWishList)).removeView(cbArrayList.get(i));
         }
         cbArrayList.clear();

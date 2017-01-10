@@ -33,5 +33,10 @@ public class WishItem extends BasicItem {
         this.gotIt = gotIt;
     }
 
-
+    @Override
+    public String toString() {
+        return "WishItem{" +
+                "gotIt=" + gotIt +
+                '}';
+    }
 }

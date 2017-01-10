@@ -64,29 +64,6 @@ public class CartFragment extends Fragment {
                     Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
                     ((MainActivity)getActivity()).stopForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
                 }
-///////////////////////////////////////////////////////////////////////////
-                /*                Random rand = new Random();
-                int id = rand.nextInt(150) + 1;
-                int prize = rand.nextInt(15000) + 1;*/
-                //////////////////////////////////////////////////////////
-         /*       int id = 2;
-                if (id < 1) {
-                    Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
-                }else{
-                    CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
-                    cartlist.add_item(cartItem);
-                    if(cartlist.get_item(cartlist.isAlreadyHave(cartItem)).getMount()==1){
-                        TextView tv = new TextView(getActivity());
-                        tv.setText(cartItem.toString());
-                        tvArrayList.add(tv);
-                        ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
-                    }else{
-                        int index = cartlist.isAlreadyHave(cartItem);
-                        tvArrayList.get(index).setText(cartlist.get_item(index).toString());
-                    }
-                    money += cartItem.getPrize();
-                    tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
-                }*/
             }
         });
        if(  ((MainActivity)getActivity()).getReadedNFC() != "" ){
@@ -123,19 +100,28 @@ public class CartFragment extends Fragment {
         CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
         cartlist.add_item(cartItem);
     }
-
     public static ItemAdapter getCartlist() {
         return cartlist;
     }
-
     @Override
     public void onResume() {
         super.onResume();
         money =0;
-        if(cartlist.getItemCount()==0){
-                readFromFile(cartlist,getContext(),true);
-        }
+        if(cartlist.getItemCount()==0)
+            readFromFile(cartlist,getContext(),true);
+        loadViewFromAdapter();
 
+    }
+    public void onPause() {
+        for(int i = 0; i < tvArrayList.size(); i++){
+            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
+        }
+        tvArrayList.clear();
+        super.onPause();
+        //btnScan.setChecked(false);
+        //((MainActivity)getActivity()).stopForegroundDispatch(getActivity(),((MainActivity)getActivity()).getMyNFCadpter() );
+    }
+    private void loadViewFromAdapter(){
         for(int i =0; i<cartlist.getItemCount(); i++){
             TextView tv = new TextView(getActivity());
             tv.setText(cartlist.get_item(i).toString());
@@ -144,14 +130,5 @@ public class CartFragment extends Fragment {
             money +=  (((CartItem)cartlist.get_item(i)).getPrize()*cartlist.get_item(i).getMount());
         }
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
-    }
-    public void onPause() {
-        super.onPause();
-        for(int i = 0; i < tvArrayList.size(); i++){
-            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
-        }
-        tvArrayList.clear();
-        //btnScan.setChecked(false);
-        //((MainActivity)getActivity()).stopForegroundDispatch(getActivity(),((MainActivity)getActivity()).getMyNFCadpter() );
     }
 }

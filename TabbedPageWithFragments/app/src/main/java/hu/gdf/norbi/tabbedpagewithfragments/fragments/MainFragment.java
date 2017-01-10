@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 
@@ -13,7 +14,7 @@ import hu.gdf.norbi.tabbedpagewithfragments.R;
  */
 
 public class MainFragment extends Fragment {
-
+    private TextView textViewLastItem;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,9 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment,container,false);
+        View view = inflater.inflate(R.layout.main_fragment,container,false);
+        textViewLastItem = (TextView) view.findViewById(R.id.tvLastReadedItem);
+        return view;
     }
 }
 

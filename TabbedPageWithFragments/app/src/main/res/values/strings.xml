@@ -9,4 +9,5 @@
     <string name="usedMoney">Spent money</string>
     <string name="btnScan">Scan</string>
     <string name="money_format">Ft</string>
+    <string name="tvLastReadedItem">Last item:</string>
 </resources>

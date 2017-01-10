@@ -108,11 +108,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mViewPager.setCurrentItem(1);
         setupForegroundDispatch(this, mNfcAdapter);
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
         CartFragment cf = new CartFragment();
         if(!cf.getCartlist().isEmpty())
             writeToFile(cf.getCartlist(),this,true);
@@ -121,11 +123,8 @@ public class MainActivity extends AppCompatActivity {
         if(!wf.getWishlist().isEmpty())
             writeToFile(wf.getWishlist(),this,false);
 
-
         stopForegroundDispatch(this, mNfcAdapter);
-        super.onPause();
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -150,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IntentFilter.MalformedMimeTypeException e) {
             throw new RuntimeException("Check your mime type.");
         }
-
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
@@ -233,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 outputStreamWriter = new OutputStreamWriter(context.openFileOutput(CART, Context.MODE_PRIVATE));
                 for(int i=0;i<adapter.getItemCount();i++){
                     CartItem item = (CartItem) adapter.get_item(i);
-                    line=item.getName()+';'+item.getDescription()+';'+item.getPrize()+';'+item.getPrize()+';'+item.getMount()+'\n';
+                    line=item.getName()+';'+item.getDescription()+';'+item.getId()+';'+item.getPrize()+';'+item.getMount()+'\n';
                     outputStreamWriter.write(line);
                 }
             }else{
@@ -242,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     WishItem item = (WishItem) adapter.get_item(i);
                     line=item.getName()+';'+item.getDescription()+';'+item.getMount()+';'+item.isGotIt()+'\n';
                     outputStreamWriter.write(line);
+                  //  Log.d("main",line);
                 }
             }
             outputStreamWriter.close();
@@ -249,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-        Log.d("main","kiirtam");
+       // Log.d("main","kiirtam");
+
     }
     public static void readFromFile(hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter,Context context, Boolean isCartItem) {
         final String CART = "cart.csv";
