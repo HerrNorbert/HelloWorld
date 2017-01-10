@@ -2,6 +2,7 @@ package hu.gdf.norbi.tabbedpagewithfragments;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
@@ -15,7 +16,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
+import hu.gdf.norbi.tabbedpagewithfragments.fragments.WishListFragment;
+import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
+import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////NFC
@@ -46,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         readedNFC = "";
-/*        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new hu.gdf.norbi.tabbedpagewithfragments.SectionsPagerAdapter(getSupportFragmentManager());
@@ -73,16 +83,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (mNfcAdapter == null) {
             // Stop here, we definitely need NFC
-            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+    //        Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
             finish();
             return;
 
         }
 
         if (!mNfcAdapter.isEnabled()) {
-            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
+  //          Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "NFC is enabled", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "NFC is enabled", Toast.LENGTH_LONG).show();
         }
 
         handleIntent(getIntent());
@@ -103,9 +113,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        CartFragment cf = new CartFragment();
+        if(!cf.getCartlist().isEmpty())
+            writeToFile(cf.getCartlist(),this,true);
+
+        WishListFragment wf = new WishListFragment();
+        if(!wf.getWishlist().isEmpty())
+            writeToFile(wf.getWishlist(),this,false);
+
+
         stopForegroundDispatch(this, mNfcAdapter);
         super.onPause();
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -172,16 +192,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("nfc readed", s);
     }
 
-    /*@Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if(readedNFC!=""){
-            CartFragment cf = new CartFragment();
-            if(cf.isCorrectID(Integer.parseInt(readedNFC)))
-                cf.AddItem(Integer.parseInt(readedNFC));
-        }
-    }*/
-
     public static void clearReadedNFC() {
         readedNFC = "";
     }
@@ -213,4 +223,76 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void writeToFile(hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter,Context context, Boolean isCartItem) {
+        final String CART = "cart.csv";
+        final String WISH = "wish.csv";
+        String line;
+        OutputStreamWriter outputStreamWriter = null;
+        try {
+            if(isCartItem) {
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput(CART, Context.MODE_PRIVATE));
+                for(int i=0;i<adapter.getItemCount();i++){
+                    CartItem item = (CartItem) adapter.get_item(i);
+                    line=item.getName()+';'+item.getDescription()+';'+item.getPrize()+';'+item.getPrize()+';'+item.getMount()+'\n';
+                    outputStreamWriter.write(line);
+                }
+            }else{
+                outputStreamWriter = new OutputStreamWriter(context.openFileOutput(WISH, Context.MODE_PRIVATE));
+                for(int i=0;i<adapter.getItemCount();i++){
+                    WishItem item = (WishItem) adapter.get_item(i);
+                    line=item.getName()+';'+item.getDescription()+';'+item.getMount()+';'+item.isGotIt()+'\n';
+                    outputStreamWriter.write(line);
+                }
+            }
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+        Log.d("main","kiirtam");
+    }
+    public static void readFromFile(hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter,Context context, Boolean isCartItem) {
+        final String CART = "cart.csv";
+        final String WISH = "wish.csv";
+        String line = "";
+        try {
+            InputStream inputStream;
+            if(isCartItem)
+                inputStream = context.openFileInput(CART);
+            else
+                inputStream = context.openFileInput(WISH);
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder stringBuilder = new StringBuilder();
+
+                if(isCartItem){
+                    while ( (line = bufferedReader.readLine()) != null ) {
+                        stringBuilder.append(line);
+                        String[] currItem = line.split(";");
+                        CartItem item = new CartItem(currItem[0],currItem[1],Integer.parseInt(currItem[2]),Integer.parseInt(currItem[3]));
+                        adapter.add_item(item);
+                    }
+                }else{
+                    while ( (line = bufferedReader.readLine()) != null ) {
+                        stringBuilder.append(line);
+                        String[] currItem = line.split(";");
+                        WishItem item = new WishItem(currItem[0],currItem[1]);
+                        item.setMount(Integer.parseInt(currItem[2]));
+                        item.setGotIt(Boolean.parseBoolean(currItem[3]));
+                        adapter.add_item(item);
+                    }
+                }
+                inputStream.close();
+                line = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        Log.d("main",line);
+    }
 }

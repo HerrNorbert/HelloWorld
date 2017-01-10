@@ -18,6 +18,8 @@ import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
+import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
+
 /**
  * Created by Norbi on 2016. 12. 05..
  */
@@ -90,20 +92,21 @@ public class WishListFragment extends Fragment {
     }
     public void onResume() {
         super.onResume();
-       if (wishlist.getItemCount()!=0){
-            for(int i =0; i<wishlist.getItemCount(); i++){
-                CheckBox cb = new CheckBox(getActivity());
-                cb.setText(wishlist.get_item(i).toString());
-                cb.setChecked( ((WishItem)wishlist.get_item(i)).isGotIt() );
-                ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
-                cbArrayList.add(cb);
+        if (wishlist.getItemCount()==0)
+            readFromFile(wishlist,getContext(),false);
+        for(int i =0; i<wishlist.getItemCount(); i++){
+            CheckBox cb = new CheckBox(getActivity());
+            cb.setText(wishlist.get_item(i).toString());
+            cb.setChecked( ((WishItem)wishlist.get_item(i)).isGotIt() );
+            ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+            cbArrayList.add(cb);
+                /*?áthúzott szögeg????????????????
                 cb.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         String tmp = (String) ((CheckBox) view) .getText();
                     }
-                });
-            }
+                });*/
         }
     }
 
@@ -115,5 +118,9 @@ public class WishListFragment extends Fragment {
         }
         cbArrayList.clear();
     //Toast.makeText(getActivity(), wishlist.getItemCount(), Toast.LENGTH_LONG).show();
+    }
+
+    public static ItemAdapter getWishlist() {
+        return wishlist;
     }
 }

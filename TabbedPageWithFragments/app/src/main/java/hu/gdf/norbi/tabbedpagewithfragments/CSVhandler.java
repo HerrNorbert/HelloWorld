@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
+import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 /**
  * Created by Norbi on 2016. 12. 19..
@@ -24,7 +25,7 @@ public class CSVhandler {
         avaibleItems = new ArrayList<>();
         this.context=context;
     }
-    public void CsvRead() throws IOException {
+    public void CsvRead(){
         String currLine="";
         AssetManager assetManager = context.getAssets();
         BufferedReader bufferedReader = null;
@@ -46,7 +47,46 @@ public class CSVhandler {
             ex.printStackTrace();
         }finally {
             if(is != null){
-                is.close();
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void CsvRead(String fileName, hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter, boolean isCartItem){
+        String line="";
+        AssetManager assetManager = context.getAssets();
+        BufferedReader bufferedReader = null;
+        InputStream is = null;
+        try {
+            is = assetManager.open(fileName);
+            bufferedReader = new BufferedReader(new InputStreamReader(is));
+            if(isCartItem){
+                while ( (line = bufferedReader.readLine()) != null ) {
+                    String[] currItem = line.split(";");
+                    CartItem item = new CartItem(currItem[0],currItem[1],Integer.parseInt(currItem[2]),Integer.parseInt(currItem[3]));
+                    adapter.add_item(item);
+                }
+            }else{
+                while ( (line = bufferedReader.readLine()) != null ) {
+                    String[] currItem = line.split(";");
+                    WishItem item = new WishItem(currItem[0],currItem[1]);
+                    item.setMount(Integer.parseInt(currItem[2]));
+                    item.setGotIt(Boolean.parseBoolean(currItem[3]));
+                    adapter.add_item(item);
+                }
+            }
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }finally {
+            if(is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

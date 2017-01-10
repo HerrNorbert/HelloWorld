@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,6 +21,8 @@ import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
+
+import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
 
 /**
  * Created by Norbi on 2016. 12. 05..
@@ -34,20 +35,16 @@ public class CartFragment extends Fragment {
     private TextView tvSpentMoney;
     private int money;
     private CSVhandler handler;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cartlist = new ItemAdapter();
         tvArrayList = new ArrayList<>();
         handler = new CSVhandler(getContext());
-        try {
-            handler.CsvRead();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        handler.CsvRead();
+       /* ((MainActivity)getActivity()).writeToFile("fasz", getContext());
+        ((MainActivity)getActivity()).readFromFile(getContext());*/
     }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -122,29 +119,31 @@ public class CartFragment extends Fragment {
         money += cartItem.getPrize();
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
     }
-
     public void AddItem(int id) {
         CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
         cartlist.add_item(cartItem);
     }
 
-
+    public static ItemAdapter getCartlist() {
+        return cartlist;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
         money =0;
-
-        if (cartlist.getItemCount()!=0){
-            for(int i =0; i<cartlist.getItemCount(); i++){
-                TextView tv = new TextView(getActivity());
-                tv.setText(cartlist.get_item(i).toString());
-                tvArrayList.add(tv);
-                ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
-                money +=  (((CartItem)cartlist.get_item(i)).getPrize()*cartlist.get_item(i).getMount());
-            }
-            tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
+        if(cartlist.getItemCount()==0){
+                readFromFile(cartlist,getContext(),true);
         }
+
+        for(int i =0; i<cartlist.getItemCount(); i++){
+            TextView tv = new TextView(getActivity());
+            tv.setText(cartlist.get_item(i).toString());
+            tvArrayList.add(tv);
+            ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
+            money +=  (((CartItem)cartlist.get_item(i)).getPrize()*cartlist.get_item(i).getMount());
+        }
+        tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
     }
     public void onPause() {
         super.onPause();

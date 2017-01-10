@@ -37,6 +37,7 @@ public class ItemAdapter {
     public int getItemCount(){
      return items.size();
     }
+    public boolean isEmpty(){return items.isEmpty();}
     public int isAlreadyHave(BasicItem item){
         return items.indexOf(item);
     }
