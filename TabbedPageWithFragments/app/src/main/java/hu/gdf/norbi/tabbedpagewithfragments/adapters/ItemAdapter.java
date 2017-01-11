@@ -1,4 +1,4 @@
-package hu.gdf.norbi.tabbedpagewithfragments;
+package hu.gdf.norbi.tabbedpagewithfragments.adapters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,5 +49,9 @@ public class ItemAdapter {
                 return basicItem.getName().compareTo(t1.getName()) ;
             }
         });
+    }
+
+    public void clear() {
+        items.clear();
     }
 }

@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
-import hu.gdf.norbi.tabbedpagewithfragments.fragments.WishListFragment;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private hu.gdf.norbi.tabbedpagewithfragments.SectionsPagerAdapter mSectionsPagerAdapter;
+    private hu.gdf.norbi.tabbedpagewithfragments.adapters.SectionsPagerAdapter mSectionsPagerAdapter;
 
 
     /**
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         readedNFC = "";
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new hu.gdf.norbi.tabbedpagewithfragments.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new hu.gdf.norbi.tabbedpagewithfragments.adapters.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -115,20 +114,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        CartFragment cf = new CartFragment();
-        if(!cf.getCartlist().isEmpty())
-            writeToFile(cf.getCartlist(),this,true);
-
-        WishListFragment wf = new WishListFragment();
-        if(!wf.getWishlist().isEmpty())
-            writeToFile(wf.getWishlist(),this,false);
-
         stopForegroundDispatch(this, mNfcAdapter);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
+        //////////////////////////////////////////////
+        CartFragment cf = new CartFragment();
+        if(getReadedNFC()!=""){
+            int id = Integer.parseInt(getReadedNFC());
+            if(cf.isCorrectID(id))
+                cf.AddItem(id);
+            clearReadedNFC();
+        }
+        //////////////////////////////////////////////
     }
 
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void writeToFile(hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter,Context context, Boolean isCartItem) {
+    public static void writeToFile(hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter,Context context, Boolean isCartItem) {
         final String CART = "cart.csv";
         final String WISH = "wish.csv";
         String line;
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             if(isCartItem) {
                 outputStreamWriter = new OutputStreamWriter(context.openFileOutput(CART, Context.MODE_PRIVATE));
+                outputStreamWriter.write("");
                 for(int i=0;i<adapter.getItemCount();i++){
                     CartItem item = (CartItem) adapter.get_item(i);
                     line=item.getName()+';'+item.getDescription()+';'+item.getId()+';'+item.getPrize()+';'+item.getMount()+'\n';
@@ -236,11 +237,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }else{
                 outputStreamWriter = new OutputStreamWriter(context.openFileOutput(WISH, Context.MODE_PRIVATE));
+                outputStreamWriter.write("");
                 for(int i=0;i<adapter.getItemCount();i++){
                     WishItem item = (WishItem) adapter.get_item(i);
                     line=item.getName()+';'+item.getDescription()+';'+item.getMount()+';'+item.isGotIt()+'\n';
                     outputStreamWriter.write(line);
-                  //  Log.d("main",line);
+                    Log.d("main",line);
                 }
             }
             outputStreamWriter.close();
@@ -248,10 +250,10 @@ public class MainActivity extends AppCompatActivity {
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
-       // Log.d("main","kiirtam");
+        Log.d("main","kiirtam");
 
     }
-    public static void readFromFile(hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter,Context context, Boolean isCartItem) {
+    public static void readFromFile(hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter,Context context, Boolean isCartItem) {
         final String CART = "cart.csv";
         final String WISH = "wish.csv";
         String line = "";

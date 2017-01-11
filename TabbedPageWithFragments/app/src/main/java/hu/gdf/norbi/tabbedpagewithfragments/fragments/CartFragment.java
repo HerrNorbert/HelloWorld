@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +19,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import hu.gdf.norbi.tabbedpagewithfragments.CSVhandler;
-import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
+import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
+import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 
 import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
@@ -32,6 +35,7 @@ public class CartFragment extends Fragment {
     static private ItemAdapter cartlist;
     private ArrayList<TextView> tvArrayList;
     private ToggleButton btnScan;
+    private Button btnPay,btnDelete,btnClear;
     private TextView tvSpentMoney;
     private int money;
     private CSVhandler handler;
@@ -66,6 +70,30 @@ public class CartFragment extends Fragment {
                 }
             }
         });
+        btnPay = (Button) view.findViewById(R.id.BTNpay);
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "This feature not supported yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnDelete = (Button) view.findViewById(R.id.BTNdelete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        btnClear = (Button) view.findViewById(R.id.BTNclear);
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cartlist.clear();
+                tvArrayList.clear();
+                Log.d("CartFragment","clear");
+            }
+        });
+
        if(  ((MainActivity)getActivity()).getReadedNFC() != "" ){
             int id = Integer.parseInt(((MainActivity)getActivity()).getReadedNFC());
             if(isCorrectID(id))
@@ -117,6 +145,7 @@ public class CartFragment extends Fragment {
             ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
         }
         tvArrayList.clear();
+        ((MainActivity)getActivity()).writeToFile(cartlist,getContext(),true);
         super.onPause();
         //btnScan.setChecked(false);
         //((MainActivity)getActivity()).stopForegroundDispatch(getActivity(),((MainActivity)getActivity()).getMyNFCadpter() );
@@ -130,5 +159,16 @@ public class CartFragment extends Fragment {
             money +=  (((CartItem)cartlist.get_item(i)).getPrize()*cartlist.get_item(i).getMount());
         }
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
+    }
+    private void removeItem(){
+        BasicItem item = null;
+        int index = cartlist.isAlreadyHave(item);
+        money -= ((CartItem)item).getPrize();
+        cartlist.remove_item(item);
+        if( ((CartItem)item).getMount()!=1){
+            tvArrayList.get(index).setText( ((CartItem)cartlist.get_item(index)).toString() );
+        }else{
+            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(index));
+        }
     }
 }

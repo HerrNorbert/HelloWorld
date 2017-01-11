@@ -10,4 +10,7 @@
     <string name="btnScan">Scan</string>
     <string name="money_format">Ft</string>
     <string name="tvLastReadedItem">Last item:</string>
+    <string name="BTNpay">pay</string>
+    <string name="BTNdelete">Delete</string>
+    <string name="BTNclear">Clear</string>
 </resources>

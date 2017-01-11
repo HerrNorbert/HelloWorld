@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter;
+import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
+import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
@@ -118,7 +119,7 @@ public class WishListFragment extends Fragment {
             ((LinearLayout) getView().findViewById(R.id.llWishList)).removeView(cbArrayList.get(i));
         }
         cbArrayList.clear();
-    //Toast.makeText(getActivity(), wishlist.getItemCount(), Toast.LENGTH_LONG).show();
+        ((MainActivity)getActivity()).writeToFile(wishlist,getContext(),false);
     }
 
     public static ItemAdapter getWishlist() {

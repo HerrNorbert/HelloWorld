@@ -55,7 +55,7 @@ public class CSVhandler {
             }
         }
     }
-    public void CsvRead(String fileName, hu.gdf.norbi.tabbedpagewithfragments.ItemAdapter adapter, boolean isCartItem){
+    public void CsvRead(String fileName, hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter, boolean isCartItem){
         String line="";
         AssetManager assetManager = context.getAssets();
         BufferedReader bufferedReader = null;
