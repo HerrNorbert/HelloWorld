@@ -32,11 +32,4 @@ public class WishItem extends BasicItem {
     public void setGotIt(boolean gotIt) {
         this.gotIt = gotIt;
     }
-
-    @Override
-    public String toString() {
-        return "WishItem{" +
-                "gotIt=" + gotIt +
-                '}';
-    }
 }

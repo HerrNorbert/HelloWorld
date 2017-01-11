@@ -25,11 +25,19 @@ public class ItemAdapter {
     }
 
     public void remove_item(BasicItem item){
-        if(isAlreadyHave(item)!=-1)
-            items.get(isAlreadyHave(item)).reduceMount();
+        if(isAlreadyHave(item)!=-1){
+            if(items.get(isAlreadyHave(item)).getMount()>2)
+                items.get(isAlreadyHave(item)).reduceMount();
+            else
+                items.remove(item);
+        }
 
-        else
-            items.remove(item);
+
+
+    }
+    public void remove_item(int i){
+        BasicItem item = items.get(i);
+        remove_item(item);
     }
     public BasicItem get_item(int i){
         return items.get(i);

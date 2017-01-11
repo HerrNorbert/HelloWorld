@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import hu.gdf.norbi.tabbedpagewithfragments.CSVhandler;
-import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
+import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.items.BasicItem;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 
@@ -33,9 +34,9 @@ import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
 
 public class CartFragment extends Fragment {
     static private ItemAdapter cartlist;
-    private ArrayList<TextView> tvArrayList;
-    private ToggleButton btnScan;
-    private Button btnPay,btnDelete,btnClear;
+    private ArrayList<View> tvArrayList;
+    private ToggleButton btnScan,btnDelete;
+    private Button btnPay,btnClear;
     private TextView tvSpentMoney;
     private int money;
     private CSVhandler handler;
@@ -77,11 +78,38 @@ public class CartFragment extends Fragment {
                 Toast.makeText(getActivity(), "This feature not supported yet", Toast.LENGTH_SHORT).show();
             }
         });
-        btnDelete = (Button) view.findViewById(R.id.BTNdelete);
+        btnDelete = (ToggleButton) view.findViewById(R.id.BTNdelete);
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(btnScan.isChecked()){
+                    Toast.makeText(getActivity(),"Scan mode must be turned off",Toast.LENGTH_LONG).show();
+                    btnDelete.setChecked(false);
+                }
+                else{
+                    if(btnDelete.isChecked()){
+                        for(int i=0;i<tvArrayList.size();++i){
+                            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
+                            tvArrayList.remove(i);
+                            CheckBox cb = new CheckBox(getActivity());
+                            cb.setText(cartlist.get_item(i).toString());
+                            tvArrayList.add(cb);
+                            ((LinearLayout) getView().findViewById(R.id.llCart)).addView(cb);
+                        }
+                    }else{
+                        for(int i=0;i<tvArrayList.size();++i){
+                            if( ((CheckBox)tvArrayList.get(i)).isChecked())
+                                cartlist.remove_item(i);
+                            ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
+                            tvArrayList.remove(i);
+                        }
+                        money =0;
+                        loadViewFromAdapter();
+                    }
+                    btnScan.setEnabled(!btnScan.isEnabled());
+                    btnPay.setEnabled(!btnPay.isEnabled());
+                    btnClear.setEnabled(!btnClear.isEnabled());
+                }
             }
         });
         btnClear = (Button) view.findViewById(R.id.BTNclear);
@@ -89,6 +117,9 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 cartlist.clear();
+                for(int i=0;i<tvArrayList.size();++i){
+                    ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
+                }
                 tvArrayList.clear();
                 Log.d("CartFragment","clear");
             }
@@ -119,7 +150,7 @@ public class CartFragment extends Fragment {
             ((LinearLayout) getView().findViewById(R.id.llCart)).addView(tv);
         }else{
             int index = cartlist.isAlreadyHave(cartItem);
-            tvArrayList.get(index).setText(cartlist.get_item(index).toString());
+            ((TextView)tvArrayList.get(index)).setText(cartlist.get_item(index).toString());
         }
         money += cartItem.getPrize();
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
@@ -166,7 +197,7 @@ public class CartFragment extends Fragment {
         money -= ((CartItem)item).getPrize();
         cartlist.remove_item(item);
         if( ((CartItem)item).getMount()!=1){
-            tvArrayList.get(index).setText( ((CartItem)cartlist.get_item(index)).toString() );
+            ((TextView)tvArrayList.get(index)).setText( ((CartItem)cartlist.get_item(index)).toString() );
         }else{
             ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(index));
         }

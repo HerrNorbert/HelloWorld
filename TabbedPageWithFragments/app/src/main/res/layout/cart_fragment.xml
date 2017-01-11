@@ -24,7 +24,8 @@
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/llCartTop">
+        android:layout_below="@+id/llCartTop"
+        android:layout_above="@+id/llCartButton">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -46,7 +47,7 @@
             android:layout_weight="1"
             android:id="@+id/BTNpay"
             android:text="@string/BTNpay"/>
-        <Button
+        <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
