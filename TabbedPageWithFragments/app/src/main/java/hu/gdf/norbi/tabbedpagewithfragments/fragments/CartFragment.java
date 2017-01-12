@@ -56,8 +56,6 @@ public class CartFragment extends Fragment {
         View view = inflater.inflate(R.layout.cart_fragment,container,false);
         tvSpentMoney = (TextView) view.findViewById(R.id.tvSpentMoney);
         btnScan = (ToggleButton) view.findViewById(R.id.btnScan);
-        //btnScan.setTextOff("Scan off");
-        //btnScan.setTextOn("Scan on");
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,8 +79,6 @@ public class CartFragment extends Fragment {
             }
         });
         btnDelete = (ToggleButton) view.findViewById(R.id.BTNdelete);
-        //btnDelete.setTextOff("Delete");
-        //btnDelete.setTextOn("Delete");
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,13 +98,13 @@ public class CartFragment extends Fragment {
 
                         }
                     }else{
-                        for(int i=0;i<tvArrayList.size();){
+                        for(int i=0;i<tvArrayList.size();++i){
                             if( ((CheckBox)tvArrayList.get(i)).isChecked()) {
                                 cartlist.remove_item(i);
                             }
                             ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
-                            tvArrayList.remove(i);
                         }
+                        tvArrayList.clear();
                         money =0;
                         loadViewFromAdapter();
                     }
@@ -162,8 +158,12 @@ public class CartFragment extends Fragment {
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
     }
     public void AddItem(int id) {
-        CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
-        cartlist.add_item(cartItem);
+        //if (handler != null) {
+            CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
+            cartlist.add_item(cartItem);
+        /*}
+        else
+            Log.d("CartFragment","handler hiba");*/
     }
     public static ItemAdapter getCartlist() {
         return cartlist;

@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
         /////////////////////////
-        mViewPager.setCurrentItem(1);
+       // mViewPager.setCurrentItem(2);
     }
 
     public NfcAdapter getMyNFCadpter() {
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         handleIntent(intent);
         //////////////////////////////////////////////
         CartFragment cf = new CartFragment();
+        cf.onCreate(new Bundle());
         if(getReadedNFC()!=""){
             int id = Integer.parseInt(getReadedNFC());
             if(cf.isCorrectID(id))

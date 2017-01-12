@@ -26,7 +26,7 @@ public class ItemAdapter {
 
     public void remove_item(BasicItem item){
         if(isAlreadyHave(item)!=-1){
-            if(items.get(isAlreadyHave(item)).getMount()>2)
+            if(items.get(isAlreadyHave(item)).getMount()>1)
                 items.get(isAlreadyHave(item)).reduceMount();
             else
                 items.remove(item);
