@@ -9,13 +9,13 @@ public class BasicItem {
    protected int mount;
 
     public BasicItem() {
-        this.name=this.description="unknow";
+        this.name=this.description="unknown";
         this.mount=1;
     }
 
     public BasicItem(String name) {
         this.name = name;
-        this.description="unknow";
+        this.description="unknown";
         this.mount=1;
     }
 

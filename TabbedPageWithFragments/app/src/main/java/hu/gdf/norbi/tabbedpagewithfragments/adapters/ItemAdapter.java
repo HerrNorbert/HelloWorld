@@ -31,9 +31,6 @@ public class ItemAdapter {
             else
                 items.remove(item);
         }
-
-
-
     }
     public void remove_item(int i){
         BasicItem item = items.get(i);

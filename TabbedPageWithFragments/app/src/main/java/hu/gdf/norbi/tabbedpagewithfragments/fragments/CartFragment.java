@@ -56,6 +56,8 @@ public class CartFragment extends Fragment {
         View view = inflater.inflate(R.layout.cart_fragment,container,false);
         tvSpentMoney = (TextView) view.findViewById(R.id.tvSpentMoney);
         btnScan = (ToggleButton) view.findViewById(R.id.btnScan);
+        btnScan.setTextOff("Scan off");
+        btnScan.setTextOn("Scan on");
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +81,8 @@ public class CartFragment extends Fragment {
             }
         });
         btnDelete = (ToggleButton) view.findViewById(R.id.BTNdelete);
+        btnDelete.setTextOff("Delete");
+        btnDelete.setTextOn("Delete");
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
