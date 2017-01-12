@@ -1,8 +1,10 @@
 package hu.gdf.norbi.tabbedpagewithfragments.fragments;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +17,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import hu.gdf.norbi.tabbedpagewithfragments.MainActivity;
-import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.R;
+import hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
@@ -27,8 +29,7 @@ import static hu.gdf.norbi.tabbedpagewithfragments.MainActivity.readFromFile;
 
 public class WishListFragment extends Fragment {
     static private ItemAdapter wishlist;
-    private Button btnAdd;
-    private Button btnSort;
+    private Button btnRemove, btnSort;
     private EditText etAddtoList;
     private ArrayList<CheckBox> cbArrayList;
 
@@ -45,30 +46,50 @@ public class WishListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.whistlist_fragment,container,false);
 
-        etAddtoList = (EditText) view.findViewById(R.id.etAddToListName);etAddtoList.setText("");
-        btnAdd = (Button) view.findViewById(R.id.btnAddtoList);
+        etAddtoList = (EditText) view.findViewById(R.id.etAddToListName);
+        etAddtoList.setText("");
+        etAddtoList.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
+                    if (etAddtoList.getText().length()==0) {
+                        Toast.makeText(getActivity(),"Please write an item.",Toast.LENGTH_LONG).show();
+                    }else {
+                        WishItem item = new WishItem(etAddtoList.getText().toString());
+                        wishlist.add_item(item);
+                        if(wishlist.get_item(wishlist.isAlreadyHave(item)).getMount()==1){
+                            final CheckBox cb = new CheckBox(getActivity());
+                            cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
+                            cbArrayList.add(cb);
+                            ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+                        }
+                        else{
+                            int index = wishlist.isAlreadyHave(item);
+                            cbArrayList.get(index).setText(wishlist.get_item(index).toString());
+                        }
+                    }
+                    etAddtoList.setText("");
+                }
+                return true;
+            }
+        });
+        btnRemove = (Button) view.findViewById(R.id.btnAddtoList);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+        btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (etAddtoList.getText().length()==0) {
-                    Toast.makeText(getActivity(),"Please write an item.",Toast.LENGTH_LONG).show();
-                }else {
-                    WishItem item = new WishItem(etAddtoList.getText().toString());
-                    wishlist.add_item(item);
-                    if(wishlist.get_item(wishlist.isAlreadyHave(item)).getMount()==1){
-                        CheckBox cb = new CheckBox(getActivity());
-                        cb.setText(wishlist.get_item(wishlist.getItemCount() - 1).toString());
-                        cbArrayList.add(cb);
-                        ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
-                    }
-                    else{
-                        int index = wishlist.isAlreadyHave(item);
-                        cbArrayList.get(index).setText(wishlist.get_item(index).toString());
-                    }
+                boolean nothingTODel = true;
+                for(int i = 0; i < cbArrayList.size();){
+                    if(cbArrayList.get(i).isChecked()){
+                        ((LinearLayout) getView().findViewById(R.id.llWishList)).removeView(cbArrayList.get(i));
+                        cbArrayList.remove(i);
+                        wishlist.remove_item(i);
+                        nothingTODel = false;
+                    }else
+                        ++i;
                 }
-                etAddtoList.setText("");
+                if(nothingTODel)
+                    Toast.makeText(getContext(),"Nothing To delete!",Toast.LENGTH_SHORT).show();
             }
         });
         btnSort = (Button) view.findViewById(R.id.btnSortList);
@@ -78,6 +99,7 @@ public class WishListFragment extends Fragment {
                 int i = 0;
                 for(CheckBox cb : cbArrayList) {
                     ((WishItem)wishlist.get_item(i)).setGotIt(cb.isChecked());
+                    cb.setPaintFlags(0);
                     ++i;
                 }
                 wishlist.sortAlphabet();
@@ -85,6 +107,8 @@ public class WishListFragment extends Fragment {
                 for(CheckBox cb : cbArrayList) {
                     cb.setChecked(((WishItem)wishlist.get_item(i)).isGotIt());
                     cb.setText(((WishItem)wishlist.get_item(i)).toString());
+                    if(cb.isChecked())
+                        cb.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     ++i;
                 }
             }
@@ -99,7 +123,10 @@ public class WishListFragment extends Fragment {
             CheckBox cb = new CheckBox(getActivity());
             cb.setText(wishlist.get_item(i).toString());
             cb.setChecked( ((WishItem)wishlist.get_item(i)).isGotIt() );
+            if(cb.isChecked())
+                cb.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
+            //((LinearLayout) getView().findViewById(R.id.llWishList)).addView(new Button(getContext()) );
             cbArrayList.add(cb);
                 /*?áthúzott szögeg????????????????*/
                 cb.setOnClickListener(new View.OnClickListener() {

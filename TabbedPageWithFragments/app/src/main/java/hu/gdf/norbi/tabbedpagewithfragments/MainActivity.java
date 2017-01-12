@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mViewPager.setCurrentItem(1);
+      //  mViewPager.setCurrentItem(1);
         setupForegroundDispatch(this, mNfcAdapter);
     }
 
@@ -121,14 +120,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
         //////////////////////////////////////////////
-        CartFragment cf = new CartFragment();
+       /* CartFragment cf = new CartFragment();
         cf.onCreate(new Bundle());
+        cf.onResume();
         if(getReadedNFC()!=""){
             int id = Integer.parseInt(getReadedNFC());
             if(cf.isCorrectID(id))
                 cf.AddItem(id);
             clearReadedNFC();
-        }
+        }*/
         //////////////////////////////////////////////
     }
 
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void setReadedNFC(String s) {
-        readedNFC = s;
+        readedNFC = readedNFC + s + ";";
         Log.d("nfc readed", s);
     }
 

@@ -123,15 +123,22 @@ public class CartFragment extends Fragment {
                     ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
                 }
                 tvArrayList.clear();
+                money = 0;
+                tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
                 Log.d("CartFragment","clear");
             }
         });
 
        if(  ((MainActivity)getActivity()).getReadedNFC() != "" ){
-            int id = Integer.parseInt(((MainActivity)getActivity()).getReadedNFC());
-            if(isCorrectID(id))
-                AddItem(id);
-            ((MainActivity)getActivity()).clearReadedNFC();
+           String[] s = ((MainActivity)getActivity()).getReadedNFC().split(";");
+           for ( String line : s ) {
+
+               int id = Integer.parseInt(line);
+               if(isCorrectID(id))
+                   AddItem(id);
+           }
+           Log.d("cart",((MainActivity)getActivity()).getReadedNFC()+"!");
+           ((MainActivity)getActivity()).clearReadedNFC();
         }
         return view;
     }

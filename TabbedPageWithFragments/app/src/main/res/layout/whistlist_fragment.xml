@@ -6,7 +6,8 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/InnerRelativeLayout">
+        android:layout_above="@+id/InnerRelativeLayout"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/btnSortList"
-            android:text="@string/AddItem"
+            android:text="@string/DELItem"
             android:onClick="WishOnClick"></Button>
 
         <EditText
