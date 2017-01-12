@@ -56,19 +56,19 @@ public class CartFragment extends Fragment {
         View view = inflater.inflate(R.layout.cart_fragment,container,false);
         tvSpentMoney = (TextView) view.findViewById(R.id.tvSpentMoney);
         btnScan = (ToggleButton) view.findViewById(R.id.btnScan);
-        btnScan.setTextOff("Scan off");
-        btnScan.setTextOn("Scan on");
+        //btnScan.setTextOff("Scan off");
+        //btnScan.setTextOn("Scan on");
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Activity activity = getActivity();
                 if(btnScan.isChecked()){
-                    Toast.makeText(getActivity(), "scaning mode on", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toastNFCoN, Toast.LENGTH_SHORT).show();
                     //((MainActivity)getActivity()).Asd("ads");
                     ((MainActivity)getActivity()).setupForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
                     //setupForegroundDispatch(this, mNfcAdapter);
                 }else{
-                    Toast.makeText(getActivity(), "scaning mode off", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.toastNFCoff, Toast.LENGTH_SHORT).show();
                     ((MainActivity)getActivity()).stopForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
                 }
             }
@@ -81,8 +81,8 @@ public class CartFragment extends Fragment {
             }
         });
         btnDelete = (ToggleButton) view.findViewById(R.id.BTNdelete);
-        btnDelete.setTextOff("Delete");
-        btnDelete.setTextOn("Delete");
+        //btnDelete.setTextOff("Delete");
+        //btnDelete.setTextOn("Delete");
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,13 +97,15 @@ public class CartFragment extends Fragment {
                             tvArrayList.remove(i);
                             CheckBox cb = new CheckBox(getActivity());
                             cb.setText(cartlist.get_item(i).toString());
-                            tvArrayList.add(cb);
+                            tvArrayList.add(i,cb);
                             ((LinearLayout) getView().findViewById(R.id.llCart)).addView(cb);
+
                         }
                     }else{
-                        for(int i=0;i<tvArrayList.size();++i){
-                            if( ((CheckBox)tvArrayList.get(i)).isChecked())
+                        for(int i=0;i<tvArrayList.size();){
+                            if( ((CheckBox)tvArrayList.get(i)).isChecked()) {
                                 cartlist.remove_item(i);
+                            }
                             ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
                             tvArrayList.remove(i);
                         }

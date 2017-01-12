@@ -19,6 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnScan"
+            android:textOn="@string/btnScanTextOn"
+            android:textOff="@string/btnScanTextOff"
             android:layout_weight="1"/>
     </LinearLayout>
     <ScrollView

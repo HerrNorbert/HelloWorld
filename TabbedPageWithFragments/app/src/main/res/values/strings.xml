@@ -13,4 +13,8 @@
     <string name="BTNpay">pay</string>
     <string name="BTNdelete">Delete</string>
     <string name="BTNclear">Clear</string>
+    <string name="toastNFCoN">scaning mode on</string>
+    <string name="toastNFCoff">scaning mode off</string>
+    <string name="btnScanTextOn">Scan on</string>
+    <string name="btnScanTextOff">Scan off</string>
 </resources>
