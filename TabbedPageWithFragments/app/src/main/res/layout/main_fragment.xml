@@ -18,16 +18,16 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="swipe left to shopping cart"
+        android:text="@string/tvSwipeLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvSwipLeft"
-        android:layout_marginBottom="73dp"
+        android:layout_marginBottom="30dp"
         android:layout_above="@+id/tvSwipeRight"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="swipe right to shopping list"
+        android:text="@string/tvSwipeRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

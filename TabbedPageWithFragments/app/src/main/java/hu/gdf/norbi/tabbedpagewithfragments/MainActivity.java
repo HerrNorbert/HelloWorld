@@ -10,6 +10,8 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import hu.gdf.norbi.tabbedpagewithfragments.fragments.CartFragment;
+import hu.gdf.norbi.tabbedpagewithfragments.fragments.MainFragment;
+import hu.gdf.norbi.tabbedpagewithfragments.fragments.WishListFragment;
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
 import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private hu.gdf.norbi.tabbedpagewithfragments.adapters.SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
 
     /**
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         readedNFC = "";
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new hu.gdf.norbi.tabbedpagewithfragments.adapters.SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -67,15 +72,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        /*//gomb ami nem kell
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         //NFC///////////////////////////
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -297,5 +293,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("main",line);
+    }
+    ////////////////////
+    /////////////////////
+    ///////////////////
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0 : return new WishListFragment();
+                case 1 : return new MainFragment();
+                case 2 : return new CartFragment();
+                default : return null;//new WishListFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return getResources().getString(R.string.titleWishList);
+                case 1:
+                    return getResources().getString(R.string.titleMain);
+                case 2:
+                    return getResources().getString(R.string.titleCart);
+            }
+            return null;
+        }
     }
 }

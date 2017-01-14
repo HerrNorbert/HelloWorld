@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Bevásárlás</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="welcome">Üdvözöljük</string>
+    <string name="DELItem">törlés</string>
+    <string name="SortItems">A-Z</string>
+    <string name="btnScan">Beolvasás</string>
+    <string name="money_format">Ft</string>
+    <string name="btnPay">Fizetés</string>
+    <string name="btnDelete">Törlés</string>
+    <string name="btnClear">Lista törlése</string>
+    <string name="toastNFCoN">Vásárlás mód be</string>
+    <string name="toastNFCoff">Vásárlás mód ki</string>
+    <string name="btnScanTextOn">Beolvasás be</string>
+    <string name="btnScanTextOff">Beolvasás ki</string>
+    <string name="tvSwipeRight"><![CDATA[<- Húzza jobbra a bevásárlólistához]]></string>
+    <string name="tvSwipeLeft"><![CDATA[Húzza balra a vásárláshoz ->]]></string>
+    <string name="titleWishList">Kívánságlista</string>
+    <string name="titleMain">Kezdőlap</string>
+    <string name="titleCart">Vásárlás</string>
+    <string name="toastNotSupportedYet">Nem támogatott művelet</string>
+    <string name="toastScanMustTurnOff">Beolvasás módot kapcsolja ki!</string>
+    <string name="toastErrorAtRead">Hiba olvasás közben</string>
+    <string name="toastNoItemToadd">Üres mező!</string>
+    <string name="toastNothingToDel">Nincs törledő elem!</string>
+    <string name="spent_money">Felhasznált összeg</string>
+</resources>

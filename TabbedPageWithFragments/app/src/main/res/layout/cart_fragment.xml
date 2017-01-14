@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/usedMoney"
+            android:text="@string/spent_money"
             android:id="@+id/tvSpentMoney"
             android:layout_weight="1"/>
         <ToggleButton
@@ -48,18 +48,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/BTNpay"
-            android:text="@string/BTNpay"/>
+            android:text="@string/btnPay"/>
         <ToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/BTNdelete"
-            android:text="@string/BTNdelete"/>
+            android:textOn="@string/btnDelete"
+            android:textOff="@string/btnDelete"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/BTNclear"
-            android:text="@string/BTNclear"/>
+            android:text="@string/btnClear"/>
     </LinearLayout>
 </RelativeLayout>

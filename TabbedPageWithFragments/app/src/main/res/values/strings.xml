@@ -1,20 +1,29 @@
 <resources>
-    <string name="app_name">TabbedPageWithFragments</string>
+    <string name="app_name">Shopping</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="welcome">Welcome</string>
     <string name="DELItem">del item(s)</string>
     <string name="SortItems">sort items</string>
-    <string name="spent_money">Spent money</string>
-    <string name="usedMoney">Spent money</string>
     <string name="btnScan">Scan</string>
     <string name="money_format">Ft</string>
     <string name="tvLastReadedItem">Last item:</string>
-    <string name="BTNpay">pay</string>
-    <string name="BTNdelete">Delete</string>
-    <string name="BTNclear">Clear</string>
+    <string name="btnPay">pay</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnClear">Clear</string>
     <string name="toastNFCoN">scaning mode on</string>
     <string name="toastNFCoff">scaning mode off</string>
     <string name="btnScanTextOn">Scan on</string>
     <string name="btnScanTextOff">Scan off</string>
+    <string name="tvSwipeRight"><![CDATA[<- swipe right to shopping list]]></string>
+    <string name="tvSwipeLeft"><![CDATA[swipe left to shopping cart ->]]></string>
+    <string name="titleWishList">WishList</string>
+    <string name="titleMain">Main</string>
+    <string name="titleCart">CartList</string>
+    <string name="toastNotSupportedYet">This feature not supported yet</string>
+    <string name="toastScanMustTurnOff">Scan mode must be turned off</string>
+    <string name="toastErrorAtRead">error at reading</string>
+    <string name="toastNoItemToadd">Please write an item.</string>
+    <string name="toastNothingToDel">Nothing To delete!</string>
+    <string name="spent_money">spent money</string>
 </resources>

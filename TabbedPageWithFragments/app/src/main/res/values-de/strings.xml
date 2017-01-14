@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Einkaufen</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="section_format">Hallo Welt aus Abschnitt: %1$d</string>
+    <string name="welcome">Willkommen</string>
+    <string name="DELItem">löschen item(s)</string>
+    <string name="SortItems">Sortieren</string>
+    <string name="btnScan">Scan</string>
+    <string name="money_format">HUF</string>
+    <string name="tvLastReadedItem">Letzte item:</string>
+    <string name="btnPay">Bezahlung</string>
+    <string name="btnDelete">Löschen</string>
+    <string name="btnClear">Klar</string>
+    <string name="toastNFCoN">Scan-Modus an</string>
+    <string name="toastNFCoff">Scan-Modus auf</string>
+    <string name="btnScanTextOn">Scan an</string>
+    <string name="btnScanTextOff">Scan aus</string>
+    <string name="tvSwipeRight"><![CDATA[<- swipe rechts zu Einkaufsliste]]></string>
+    <string name="tvSwipeLeft"><![CDATA[swipe links zu shopping cart ->]]></string>
+    <string name="titleWishList">Einkaufsliste</string>
+    <string name="titleMain">Main</string>
+    <string name="titleCart">Einkaufswagen</string>
+    <string name="toastNotSupportedYet">This feature not supported yet</string>
+    <string name="toastScanMustTurnOff">Der Scan-Modus muss ausgeschaltet sein</string>
+    <string name="toastErrorAtRead">Fehler beim Lesen</string>
+    <string name="toastNoItemToadd">Bitte schreiben Sie einen item.</string>
+    <string name="toastNothingToDel">Nichts zu löschen!</string>
+    <string name="spent_money">Geld ausgeben</string>
+</resources>

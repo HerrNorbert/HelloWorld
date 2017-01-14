@@ -57,7 +57,7 @@ public class WishListFragment extends Fragment {
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
                     if (etAddtoList.getText().length()==0) {
-                        Toast.makeText(getActivity(),"Please write an item.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(),R.string.toastNoItemToadd, Toast.LENGTH_LONG).show();
                     }else {
                         WishItem item = new WishItem(etAddtoList.getText().toString());
                         wishlist.add_item(item);
@@ -95,7 +95,7 @@ public class WishListFragment extends Fragment {
                         ++i;
                 }
                 if(nothingTODel)
-                    Toast.makeText(getContext(),"Nothing To delete!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),R.string.toastNothingToDel, Toast.LENGTH_SHORT).show();
             }
         });
         btnSort = (Button) view.findViewById(R.id.btnSortList);

@@ -75,7 +75,7 @@ public class CartFragment extends Fragment {
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "This feature not supported yet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),R.string.toastNotSupportedYet, Toast.LENGTH_SHORT).show();
             }
         });
         btnDelete = (ToggleButton) view.findViewById(R.id.BTNdelete);
@@ -83,7 +83,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(btnScan.isChecked()){
-                    Toast.makeText(getActivity(),"Scan mode must be turned off",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),R.string.toastScanMustTurnOff,Toast.LENGTH_LONG).show();
                     btnDelete.setChecked(false);
                 }
                 else{
@@ -144,7 +144,7 @@ public class CartFragment extends Fragment {
     }
     public boolean isCorrectID(int id){
         if (id < 1) {
-            Toast.makeText(getActivity(), "error at reading", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.toastErrorAtRead, Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
