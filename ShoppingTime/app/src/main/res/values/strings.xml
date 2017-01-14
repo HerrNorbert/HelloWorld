@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">ShoppingTime</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="unknow">unknow</string>
-    <string name="SortItems">Sort</string>
-    <string name="AddItem">Add</string>
-    <string name="AddToCart">Add To Cart</string>
-</resources>
