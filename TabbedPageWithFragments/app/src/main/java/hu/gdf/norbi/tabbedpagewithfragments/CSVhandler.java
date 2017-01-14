@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import hu.gdf.norbi.tabbedpagewithfragments.items.CartItem;
-import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 /**
  * Created by Norbi on 2016. 12. 19..
@@ -55,47 +54,14 @@ public class CSVhandler {
             }
         }
     }
-    public void CsvRead(String fileName, hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter, boolean isCartItem){
-        String line="";
-        AssetManager assetManager = context.getAssets();
-        BufferedReader bufferedReader = null;
-        InputStream is = null;
-        try {
-            is = assetManager.open(fileName);
-            bufferedReader = new BufferedReader(new InputStreamReader(is));
-            if(isCartItem){
-                while ( (line = bufferedReader.readLine()) != null ) {
-                    String[] currItem = line.split(";");
-                    CartItem item = new CartItem(currItem[0],currItem[1],Integer.parseInt(currItem[2]),Integer.parseInt(currItem[3]));
-                    adapter.add_item(item);
-                }
-            }else{
-                while ( (line = bufferedReader.readLine()) != null ) {
-                    String[] currItem = line.split(";");
-                    WishItem item = new WishItem(currItem[0],currItem[1]);
-                    item.setMount(Integer.parseInt(currItem[2]));
-                    item.setGotIt(Boolean.parseBoolean(currItem[3]));
-                    adapter.add_item(item);
-                }
-            }
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }finally {
-            if(is != null){
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+
     public CartItem FindItemById(int id){
         CartItem item = new CartItem("","",id,0);
         if(avaibleItems.size()>0){
             if(-1 != avaibleItems.indexOf(item))
                 return  avaibleItems.get(avaibleItems.indexOf(item));
         }
+        item.setId(-1);
         return item;
     }
 }

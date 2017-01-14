@@ -47,8 +47,6 @@ public class CartFragment extends Fragment {
         tvArrayList = new ArrayList<>();
         handler = new CSVhandler(getContext());
         handler.CsvRead();
-       /* ((MainActivity)getActivity()).writeToFile("fasz", getContext());
-        ((MainActivity)getActivity()).readFromFile(getContext());*/
     }
     @Nullable
     @Override
@@ -96,9 +94,10 @@ public class CartFragment extends Fragment {
 
                         }
                     }else{
+                        int counter = 0;
                         for(int i=0;i<tvArrayList.size();++i){
                             if( ((CheckBox)tvArrayList.get(i)).isChecked()) {
-                                cartlist.remove_item(i);
+                                cartlist.remove_item(i - counter++ );
                             }
                             ((LinearLayout) getView().findViewById(R.id.llCart)).removeView(tvArrayList.get(i));
                         }
@@ -141,7 +140,7 @@ public class CartFragment extends Fragment {
         return view;
     }
     public boolean isCorrectID(int id){
-        if (id < 1) {
+        if (id < 1 ) {
             Toast.makeText(getActivity(), R.string.toastErrorAtRead, Toast.LENGTH_LONG).show();
             return false;
         }
@@ -163,8 +162,9 @@ public class CartFragment extends Fragment {
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
     }
     public void AddItem(int id) {
-            CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
-            cartlist.add_item(cartItem);
+            CartItem cartItem = handler.FindItemById(id);
+            if(cartItem.getId() != -1)
+                cartlist.add_item(cartItem);
     }
     public static ItemAdapter getCartlist() {
         return cartlist;

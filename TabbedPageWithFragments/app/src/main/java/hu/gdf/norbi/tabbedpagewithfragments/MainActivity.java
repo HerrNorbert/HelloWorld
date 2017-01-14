@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -61,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!mNfcAdapter.isEnabled()) {
-  //          Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
         } else {
-//            Toast.makeText(this, "NFC is enabled", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "NFC is enabled", Toast.LENGTH_LONG).show();
         }
         handleIntent(getIntent());
         mViewPager.setCurrentItem(1);
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (!mNfcAdapter.isEnabled()) {
+            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
+        }
         setupForegroundDispatch(this, mNfcAdapter);
     }
 
