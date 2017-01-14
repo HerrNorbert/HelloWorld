@@ -1,5 +1,6 @@
 package hu.gdf.norbi.tabbedpagewithfragments.fragments;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -45,7 +47,9 @@ public class WishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.whistlist_fragment,container,false);
-
+        /////////
+        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        ////////
         etAddtoList = (EditText) view.findViewById(R.id.etAddToListName);
         etAddtoList.setText("");
         etAddtoList.setOnKeyListener(new View.OnKeyListener() {
@@ -67,6 +71,8 @@ public class WishListFragment extends Fragment {
                             int index = wishlist.isAlreadyHave(item);
                             cbArrayList.get(index).setText(wishlist.get_item(index).toString());
                         }
+                        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                     etAddtoList.setText("");
                 }
@@ -115,6 +121,7 @@ public class WishListFragment extends Fragment {
         });
         return view;
     }
+
     public void onResume() {
         super.onResume();
         if (wishlist.getItemCount()==0)

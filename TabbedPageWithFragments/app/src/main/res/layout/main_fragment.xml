@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,20 +11,51 @@
 
     <TextView
         android:text="@string/welcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:text="@string/spent_money"
-        android:id="@+id/tvSpentMoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:id="@+id/tvWelcome"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
-        android:text="@string/tvLastReadedItem"
-        android:id="@+id/tvLastReadedItem"
+        android:text="swipe left to shopping cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSwipLeft"
+        android:layout_marginBottom="73dp"
+        android:layout_above="@+id/tvSwipeRight"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="swipe right to shopping list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tvSwipeRight" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/gdf"
+            android:layout_weight="1"
+            android:layout_marginBottom="93dp"
+            android:id="@+id/ivGDF" />
 
-        />
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/cart_logo155x115"
+            android:layout_weight="1"
+            android:layout_marginBottom="93dp"
+            android:id="@+id/ivLOGO" />
+
+    </LinearLayout>
+
+</RelativeLayout>

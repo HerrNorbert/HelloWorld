@@ -45,15 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/btnAddtoList"></EditText>
-        <!--<EditText
-            android:id="@+id/etAddToListDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_above="@+id/etAddToListName"
-            ></EditText>-->
-
+            android:layout_toLeftOf="@id/btnAddtoList"
+            android:maxLines="2"></EditText>
 
     </RelativeLayout>
 

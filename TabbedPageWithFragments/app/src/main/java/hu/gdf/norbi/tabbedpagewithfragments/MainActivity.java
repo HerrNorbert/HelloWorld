@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
         /////////////////////////
-       // mViewPager.setCurrentItem(2);
+        mViewPager.setCurrentItem(1);
     }
 
     public NfcAdapter getMyNFCadpter() {
