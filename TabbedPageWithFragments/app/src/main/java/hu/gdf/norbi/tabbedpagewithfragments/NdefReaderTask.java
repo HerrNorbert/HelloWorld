@@ -15,7 +15,6 @@ import java.util.Arrays;
  */
 
 class NdefReaderTask extends AsyncTask<Tag, Void, String> {
- //   private Context context;
     public static final String TAG = "NfcDemo";
     @Override
     protected String doInBackground(Tag... params) {
@@ -23,7 +22,6 @@ class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
         Ndef ndef = Ndef.get(tag);
         if (ndef == null) {
-            // NDEF is not supported by this Tag.
             return null;
         }
 
@@ -44,35 +42,15 @@ class NdefReaderTask extends AsyncTask<Tag, Void, String> {
     }
 
     private String readText(NdefRecord record) throws UnsupportedEncodingException {
-        /*
-         * See NFC forum specification for "Text Record Type Definition" at 3.2.1
-         *
-         * http://www.nfc-forum.org/specs/
-         *
-         * bit_7 defines encoding
-         * bit_6 reserved for future use, must be 0
-         * bit_5..0 length of IANA language code
-         */
-
         byte[] payload = record.getPayload();
-
-        // Get the Text Encoding
         String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
-
-        // Get the Language Code
         int languageCodeLength = payload[0] & 0063;
-
-         String languageCode = new String(payload, 1, languageCodeLength, "US-ASCII");
-        // e.g. "en"
-
-        // Get the Text
         return new String(payload, languageCodeLength + 1, payload.length - languageCodeLength - 1, textEncoding);
     }
 
     @Override
     protected void onPostExecute(String result) {
         if (result != null) {
-            //mTextView.setText("Read content: " + result);
             MainActivity.setReadedNFC(result);
         }
     }

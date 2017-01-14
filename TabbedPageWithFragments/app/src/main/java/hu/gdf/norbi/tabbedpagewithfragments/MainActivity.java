@@ -34,26 +34,13 @@ import hu.gdf.norbi.tabbedpagewithfragments.items.WishItem;
 
 public class MainActivity extends AppCompatActivity {
     ////////////////////////////////////////NFC
+    private static final String CART = "cart.csv";
+    private static final String WISH = "wish.csv";
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
     private NfcAdapter mNfcAdapter;
     private static String readedNFC;
-
-    ////////////////////////////////////////////////NFC
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * ho.gdf.norbi.fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -61,26 +48,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         readedNFC = "";
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        //NFC///////////////////////////
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         if (mNfcAdapter == null) {
-            // Stop here, we definitely need NFC
-    //        Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
             finish();
             return;
-
         }
 
         if (!mNfcAdapter.isEnabled()) {
@@ -88,9 +65,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 //            Toast.makeText(this, "NFC is enabled", Toast.LENGTH_LONG).show();
         }
-
         handleIntent(getIntent());
-        /////////////////////////
         mViewPager.setCurrentItem(1);
     }
 
@@ -98,11 +73,10 @@ public class MainActivity extends AppCompatActivity {
         return mNfcAdapter;
     }
 
-    /////////////////////////////////////////////NFC
+
     @Override
     protected void onResume() {
         super.onResume();
-      //  mViewPager.setCurrentItem(1);
         setupForegroundDispatch(this, mNfcAdapter);
     }
 
@@ -115,17 +89,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         handleIntent(intent);
-        //////////////////////////////////////////////
-       /* CartFragment cf = new CartFragment();
-        cf.onCreate(new Bundle());
-        cf.onResume();
-        if(getReadedNFC()!=""){
-            int id = Integer.parseInt(getReadedNFC());
-            if(cf.isCorrectID(id))
-                cf.AddItem(id);
-            clearReadedNFC();
-        }*/
-        //////////////////////////////////////////////
     }
 
     public static void setupForegroundDispatch(final Activity activity, NfcAdapter adapter) {
@@ -137,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter[] filters = new IntentFilter[1];
         String[][] techList = new String[][]{};
 
-        // Notice that this is the same filter as in our manifest.
         filters[0] = new IntentFilter();
         filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
         filters[0].addCategory(Intent.CATEGORY_DEFAULT);
@@ -167,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Wrong mime type: " + type);
             }
         } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
-
-            // In case we would still use the Tech Discovered Intent
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             String[] techList = tag.getTechList();
             String searchedTech = Ndef.class.getName();
@@ -195,32 +155,22 @@ public class MainActivity extends AppCompatActivity {
         return readedNFC;
     }
 
-    ///////////////////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public static void writeToFile(hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter,Context context, Boolean isCartItem) {
-        final String CART = "cart.csv";
-        final String WISH = "wish.csv";
         String line;
         OutputStreamWriter outputStreamWriter = null;
         try {
@@ -251,8 +201,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public static void readFromFile(hu.gdf.norbi.tabbedpagewithfragments.adapters.ItemAdapter adapter,Context context, Boolean isCartItem) {
-        final String CART = "cart.csv";
-        final String WISH = "wish.csv";
         String line = "";
         try {
             InputStream inputStream;
@@ -294,9 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("main",line);
     }
-    ////////////////////
-    /////////////////////
-    ///////////////////
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

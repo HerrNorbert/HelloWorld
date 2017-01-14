@@ -62,9 +62,7 @@ public class CartFragment extends Fragment {
                 Activity activity = getActivity();
                 if(btnScan.isChecked()){
                     Toast.makeText(getActivity(), R.string.toastNFCoN, Toast.LENGTH_SHORT).show();
-                    //((MainActivity)getActivity()).Asd("ads");
                     ((MainActivity)getActivity()).setupForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
-                    //setupForegroundDispatch(this, mNfcAdapter);
                 }else{
                     Toast.makeText(getActivity(), R.string.toastNFCoff, Toast.LENGTH_SHORT).show();
                     ((MainActivity)getActivity()).stopForegroundDispatch(activity,((MainActivity)activity).getMyNFCadpter() );
@@ -165,12 +163,8 @@ public class CartFragment extends Fragment {
         tvSpentMoney.setText(getContext().getString(R.string.spent_money)+": "+ NumberFormat.getNumberInstance(Locale.US).format(money)+getContext().getString(R.string.money_format));
     }
     public void AddItem(int id) {
-        //if (handler != null) {
             CartItem cartItem = handler.FindItemById(id);//new CartItem("tv","qrva tv",id,prize);
             cartlist.add_item(cartItem);
-        /*}
-        else
-            Log.d("CartFragment","handler hiba");*/
     }
     public static ItemAdapter getCartlist() {
         return cartlist;
@@ -191,8 +185,6 @@ public class CartFragment extends Fragment {
         tvArrayList.clear();
         ((MainActivity)getActivity()).writeToFile(cartlist,getContext(),true);
         super.onPause();
-        //btnScan.setChecked(false);
-        //((MainActivity)getActivity()).stopForegroundDispatch(getActivity(),((MainActivity)getActivity()).getMyNFCadpter() );
     }
     private void loadViewFromAdapter(){
         for(int i =0; i<cartlist.getItemCount(); i++){

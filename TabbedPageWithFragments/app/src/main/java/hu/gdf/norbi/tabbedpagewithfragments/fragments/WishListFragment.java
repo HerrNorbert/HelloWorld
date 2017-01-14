@@ -47,9 +47,6 @@ public class WishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.whistlist_fragment,container,false);
-        /////////
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        ////////
         etAddtoList = (EditText) view.findViewById(R.id.etAddToListName);
         etAddtoList.setText("");
         etAddtoList.setOnKeyListener(new View.OnKeyListener() {
@@ -133,15 +130,7 @@ public class WishListFragment extends Fragment {
             if(cb.isChecked())
                 cb.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             ((LinearLayout) getView().findViewById(R.id.llWishList)).addView(cb);
-            //((LinearLayout) getView().findViewById(R.id.llWishList)).addView(new Button(getContext()) );
             cbArrayList.add(cb);
-                /*?áthúzott szögeg????????????????*/
-                cb.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String tmp = (String) ((CheckBox) view) .getText();
-                    }
-                });
         }
     }
 
@@ -149,7 +138,6 @@ public class WishListFragment extends Fragment {
         super.onPause();
         for(int i = 0; i < cbArrayList.size(); i++){
             ((WishItem)wishlist.get_item(i)).setGotIt(cbArrayList.get(i).isChecked());
-            //Log.d("wishlist",((WishItem)wishlist.get_item(i)).toString());
             ((LinearLayout) getView().findViewById(R.id.llWishList)).removeView(cbArrayList.get(i));
         }
         cbArrayList.clear();
